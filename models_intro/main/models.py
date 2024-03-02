@@ -35,19 +35,19 @@ class CitizenQuerySet(models.QuerySet):
   def not_criminals(self):
     return self.filter(has_criminal_issues=False)
 
-class CitizenManager(models.Manager):
-  def get_queryset(self) -> models.QuerySet:
-    return CitizenQuerySet(self.model, self._db)
+# class CitizenManager(models.Manager):
+#   def get_queryset(self) -> models.QuerySet:
+#     return CitizenQuerySet(self.model, self._db)
   
-  def criminals(self):
-    return self.get_queryset().criminals()
+#   def criminals(self):
+#     return self.get_queryset().criminals()
   
-  def not_criminals(self):
-    return self.get_queryset().not_criminals()
+#   def not_criminals(self):
+#     return self.get_queryset().not_criminals()
   
   
 class Citizen(Base):
   age = models.IntegerField()
   country = models.ForeignKey(Country, on_delete=models.CASCADE)
   has_criminal_issues = models.BooleanField(default=False)
-  objects = CitizenManager()
+  objects = CitizenQuerySet().as_manager()
