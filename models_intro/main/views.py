@@ -7,7 +7,7 @@ def get_country_by_name(request):
   if _name := request.GET.get('name'):
     countries = countries.filter(name=_name.capitalize())
 
-  countries = countries.order_by("-area").all()
+  countries = countries.all()
   return render(request, "index.html", {"iterable": countries, "header": "Countries"})
 
 def get_cities(request):
@@ -23,6 +23,11 @@ def get_citizens(request):
   
   if country_name := request.GET.get("country_name"):
     citizens = citizens.filter(country__name__iexact=country_name)
+    
+  if request.GET.get("is_criminal") is not None:
+    citizens = citizens.criminals()
+  else:
+    citizens = citizens.not_criminals()
   
   citizens = citizens.all()
   
