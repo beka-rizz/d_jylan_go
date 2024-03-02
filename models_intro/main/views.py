@@ -1,25 +1,29 @@
 from django.shortcuts import render
 
-from main.models import City, Country
+from main.models import Citizen, City, Country
 
 def get_country_by_name(request):
+  countries = Country.objects
   if _name := request.GET.get('name'):
-    print(_name.capitalize())
-    countries = Country.objects.filter(name=_name.capitalize())
-  else:
-    countries = Country.objects.all()
+    countries = countries.filter(name=_name.capitalize())
+
+  countries = countries.order_by("-area").all()
   return render(request, "index.html", {"iterable": countries, "header": "Countries"})
 
 def get_cities(request):
+  cities = City.objects
   if _country_id := request.GET.get('country_id'):
-    cities = City.objects.filter(country_id=_country_id.capitalize())
-  else:
-    cities = City.objects.all()
+    cities = cities.filter(country_id=_country_id.capitalize()).all()
+  
+  cities = cities.all()
   return render(request, "index.html", {"iterable": cities, "header": "Cities"})
 
-def get_cities_by_country_name(request):
-  if country_name := request.GET.get('country_name'):
-    cities = City.objects.filter(country__name=country_name)
-  else:
-    cities = City.objects.all()
-  return render(request, "index.html", {"iterable": cities, "header": "Cities"})
+def get_citizens(request):
+  citizens = Citizen.objects
+  
+  if country_name := request.GET.get("country_name"):
+    citizens = citizens.filter(country__name__iexact=country_name)
+  
+  citizens = citizens.all()
+  
+  return render(request, "index.html", {"iterable": citizens, "header": "Citizens"})
