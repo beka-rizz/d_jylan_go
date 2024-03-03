@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from app.models import Student
+from app.models import Lesson, Student
 
 def get_students(req):
   students = Student.objects
@@ -9,3 +9,11 @@ def get_students(req):
   else:
     students = students.get_ordered_by_name().all()
   return render(req, "index.html", {"iterable": students, "header": "Students"})
+
+def get_lessons(req):
+  lessons = Lesson.objects
+  if teacher_name := req.GET.get("teacher_name"):
+    lessons = lessons.get_today_lessons_by_teacher(teacher_name)
+  else:
+    lessons = lessons.all()
+  return render(req, "lessons.html", {"iterable": lessons, "header": "Lessons"})

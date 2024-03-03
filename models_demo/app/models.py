@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 class User(models.Model):
@@ -19,7 +20,12 @@ class Teacher(User):
   def __repr__(self):
     return f"Teacher(name: {self.name}, years of experience: {self.years_of_experience})"
   
+class LessonQuerySet(models.QuerySet):
+  def get_today_lessons_by_teacher(self, name):
+    return self.filter(teacher__name__exact=name).filter(date=datetime.today().strftime('%Y-%m-%d'))
+
 class Lesson(models.Model):
+  objects = LessonQuerySet.as_manager()
   title = models.CharField(max_length=10)
   date = models.DateField()
   duration = models.IntegerField()
