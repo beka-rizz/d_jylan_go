@@ -12,8 +12,8 @@ def get_students(req):
 
 def get_lessons(req):
   lessons = Lesson.objects
-  if teacher_name := req.GET.get("teacher_name"):
+  if teacher_name := req.GET.get("teacher"):
     lessons = lessons.get_today_lessons_by_teacher(teacher_name)
   else:
     lessons = lessons.all()
-  return render(req, "lessons.html", {"iterable": lessons, "header": "Lessons"})
+  return render(req, "lessons.html", {"lessons": lessons})

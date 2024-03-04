@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from django.db import models
 
 class User(models.Model):
@@ -22,7 +22,7 @@ class Teacher(User):
   
 class LessonQuerySet(models.QuerySet):
   def get_today_lessons_by_teacher(self, name):
-    return self.filter(teacher__name__exact=name).filter(date=datetime.today().strftime('%Y-%m-%d'))
+    return self.filter(teacher__name__exact=name).filter(date=date.today())
 
 class Lesson(models.Model):
   objects = LessonQuerySet.as_manager()

@@ -6,10 +6,10 @@
   <title>Lessons</title>
 </head>
 <body>
-  {{header}} 
+  <h2>Lessons</h2>
     <ol>
-      {% for item in iterable %}
-        <li>{{item.title}}</li>
+      {% for lesson in lessons %}
+        <li>{{lesson.title}}: {{lesson.description}}</li>
       {% endfor %}
     </ol>
 </body>
