@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons</title>
+</head>
+<body>
+  <h2>Lessons</h2>
+    <ol>
+      {% for lesson in lessons %}
+        <li>{{lesson.title}}: {{lesson.description}}</li>
+      {% endfor %}
+    </ol>
+</body>
+</html>
